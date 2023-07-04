@@ -4,9 +4,6 @@ import Searchbar from '../components/Searchbar/Searchbar';
 import ImageGallery from '../components/ImageGallery/ImageGallery';
 import Button from '../components/Button/Button';
 import Modal from '../components/Modal/Modal';
-// import Loader from 'react-loader-spinner';
-
-// import 'react-loader-spinner/dist/loader/BallTriangle';
 import './styles.css';
 
 const App = () => {
@@ -28,7 +25,7 @@ const App = () => {
         if (currentPage === 1) {
           setImages(response.data.hits);
         } else {
-          setImages(prevImages => [...prevImages, ...response.data.hits]);
+          setImages((prevImages) => [...prevImages, ...response.data.hits]);
         }
       } catch (error) {
         console.log('Error while fetching images:', error);
@@ -40,13 +37,13 @@ const App = () => {
     fetchImages();
   }, [searchQuery, currentPage]);
 
-  const handleFormSubmit = query => {
+  const handleFormSubmit = (query) => {
     setSearchQuery(query);
     setImages([]);
     setCurrentPage(1);
   };
 
-  const handleImageClick = imageUrl => {
+  const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
   };
 
@@ -55,20 +52,15 @@ const App = () => {
   };
 
   const handleLoadMore = () => {
-    setCurrentPage(prevPage => prevPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   return (
     <div className="App">
       <Searchbar onSubmit={handleFormSubmit} />
       <ImageGallery images={images} onImageClick={handleImageClick} />
-      {isLoading ? (
-        <div className="Loader">
-          Loading...
-          {/* <Loader type="BallTriangle" color="#3f51b5" height={80} width={80} /> */}
-        </div>
-      ) : null}
-      {selectedImage && <Modal imageUrl={selectedImage} onClose={handleModalClose} />}
+      {isLoading && <div className="Loader">Loading...</div>}
+      {selectedImage && <Modal largeImageURL={selectedImage} onClose={handleModalClose} />}
       {!isLoading && images.length > 0 && <Button onClick={handleLoadMore} />}
     </div>
   );
