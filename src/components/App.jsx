@@ -39,7 +39,6 @@ const App = () => {
 
   const handleFormSubmit = (query) => {
     setSearchQuery(query);
-    setImages([]);
     setCurrentPage(1);
   };
 
